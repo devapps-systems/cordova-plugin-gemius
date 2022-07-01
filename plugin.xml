@@ -5,13 +5,29 @@
         <clobbers target="cordova.plugins.GemiusPlugin" />
     </js-module>
     
+    <preference name="GEMIUS_APP_NAME" />
+    <preference name="GEMIUS_APP_VERSION" />
+    <preference name="GEMIUS_HITCOLLECTOR_HOST" />
+    <preference name="GEMIUS_SCRIPT_IDENTIFIER" />
+    <preference name="GEMIUS_LOGGING_ENABLED" default="false" />
+    <preference name="GEMIUS_IDFA_ENABLED" default="true" />
+    <preference name="GEMIUS_BUFFERED_MODE" default="true" />
+    <preference name="GEMIUS_POWER_SAVING_MODE" default="true" />
+
     <platform name="ios">
         <config-file parent="/*" target="config.xml">
             <feature name="GemiusPlugin">
                 <param name="ios-package" value="GemiusPlugin" />
             </feature>
         </config-file>
-        <source-file src="src/ios/GemiusPlugin.m" />
+        <source-file src="src/ios/GemiusPlugin.swift" compiler-flags="-ObjC" />
+        <source-file src="src/ios/GemiusPlugin-Bridging-Header.h" />
+
+        <framework src="AdSupport.framework" />
+        <framework src="SystemConfiguration.framework" />
+        <framework src="src/ios/frameworks/GemiusSDK.xcframework" custom="true" embed="false" />
+
+        <dependency id="cordova-plugin-add-swift-support" url="https://github.com/devapps-systems/cordova-plugin-add-swift-support"/>
     </platform>
 
     <platform name="android">
