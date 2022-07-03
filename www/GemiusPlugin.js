@@ -9,9 +9,14 @@ var GemiusPlugin = {
         STREAM: 4,
         DATA: 5,
     },
-    coolMethod: function (arg0, success, error) {
-        exec(success, error, 'GemiusPlugin', 'coolMethod', [arg0]);
-    },
+
+    /**
+     * Updates the user's avatar image.
+     * @param {Function} success - the success callback for the plugin call
+     * @param {Function} error - the failure callback for the plugin call
+     * @param {eventType} eventType - The event type for the call
+     * @param {Object} params - The optional additional parameters to be passed
+     */
     logEvent: function(success, error, eventType, params) {
         exec(success, error, 'GemiusPlugin', 'logEvent', [eventType, params]);
     }

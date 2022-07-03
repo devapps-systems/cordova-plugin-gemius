@@ -2,8 +2,12 @@ import UIKit
 import Foundation
 import GemiusSDK
 
-enum Season {
-  case FULL_PAGEVIEW, PARTIAL_PAGEVIEW, SONAR, ACTION, STREAM, DATA
+struct GemiusPluginError: Error, LocalizedError {
+    let errorDescription: String?
+
+    init(_ description: String) {
+        errorDescription = description
+    }
 }
 
 @objc(GemiusPlugin) class GemiusPlugin : CDVPlugin {
@@ -55,46 +59,45 @@ enum Season {
         GEMAudienceConfig.sharedInstance().bufferedMode = bufferedMode!
         GEMAudienceConfig.sharedInstance().powerSavingMode = powerSavingMode!
     }
-
-    @objc(coolMethod:)
-    func coolMethod(command: CDVInvokedUrlCommand) {
-        var pluginResult = CDVPluginResult(
-            status: CDVCommandStatus_ERROR
-        )
-
-        let msg = command.arguments[0] as? String ?? ""
-        if msg.count > 0 {
-            pluginResult = CDVPluginResult(
-                status: CDVCommandStatus_OK,
-                messageAs: msg
-            )
-        }
-
-        self.commandDelegate!.send(
-            pluginResult,
-            callbackId: command.callbackId
-        )
-    }
     
     @objc(logEvent:)
     func logEvent(command: CDVInvokedUrlCommand) {
-        let firstString = command.arguments[0] as? String;
-        
-        var pluginResult = CDVPluginResult(
-            status: CDVCommandStatus_ERROR
-        )
+        do {
+            if(command.arguments == nil || command.arguments.count == 0) {
+                throw GemiusPluginError("Please provide the event type.")
+            }
+            
+            let eventTypePassed = command.arguments[0] as! String
+            let eventType = GEMEventType.init(rawValue: Int(eventTypePassed)!)!
 
-        let msg = command.arguments[0] as? String ?? ""
-        if msg.count > 0 {
-            pluginResult = CDVPluginResult(
+            let event = GEMAudienceEvent()
+            event.eventType = eventType
+            
+            let extraParams = command.arguments[1] as? Dictionary<String, String>
+            if(extraParams != nil) {
+                event.setExtraParameters(extraParams)
+            }
+            
+            event.send()
+            
+            let pluginResult = CDVPluginResult(
                 status: CDVCommandStatus_OK,
-                messageAs: msg
+            )
+            
+            self.commandDelegate!.send(
+                pluginResult,
+                callbackId: command.callbackId
+            )
+        } catch let error {
+            let pluginResult = CDVPluginResult(
+                status: CDVCommandStatus_ERROR,
+                messageAs: error.localizedDescription
+            )
+
+            self.commandDelegate!.send(
+                pluginResult,
+                callbackId: command.callbackId
             )
         }
-
-        self.commandDelegate!.send(
-            pluginResult,
-            callbackId: command.callbackId
-        )
     }
 }

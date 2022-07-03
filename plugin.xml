@@ -14,6 +14,10 @@
     <preference name="GEMIUS_BUFFERED_MODE" default="true" />
     <preference name="GEMIUS_POWER_SAVING_MODE" default="true" />
 
+    <preference name="ANDROID_PLAY_SERVICES_CORE_VERSION" default="17.3.0" />
+    <preference name="ANDROID_PLAY_SERVICES_ADS_VERSION" default="19.1.0" />
+    <preference name="GSON_VERSION" default="2.8.5" />
+
     <platform name="ios">
         <config-file parent="/*" target="config.xml">
             <feature name="GemiusPlugin">
@@ -36,7 +40,31 @@
                 <param name="android-package" value="com.devapps.gemius" />
             </feature>
         </config-file>
-        <config-file parent="/*" target="AndroidManifest.xml" />
+
+        <config-file target="res/values/strings.xml" parent="/*">
+            <string name="gemius_app_name">$GEMIUS_APP_NAME</string>
+            <string name="gemius_app_version">$GEMIUS_APP_VERSION</string>
+            <string name="gemius_hitcollector_host">$GEMIUS_HITCOLLECTOR_HOST</string>
+            <string name="gemius_script_identifier">$GEMIUS_SCRIPT_IDENTIFIER</string>
+            <string name="gemius_logging_enabled">$GEMIUS_LOGGING_ENABLED</string>
+            <string name="gemius_idfa_enabled">$GEMIUS_IDFA_ENABLED</string>
+            <string name="gemius_buffered_mode">$GEMIUS_BUFFERED_MODE</string>
+            <string name="gemius_power_saving_mode">$GEMIUS_POWER_SAVING_MODE</string>
+        </config-file>
+
+        <resource-file src="src/android/aars/GemiusSDK_2.0.0.aar" target="../../libs/GemiusSDK_2.0.0.aar" />
+
+        <config-file parent="/*" target="AndroidManifest.xml">
+            <uses-permission android:name="android.permission.INTERNET" />
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+        </config-file>
+
+        <framework custom="true" src="src/android/Gemius.gradle" type="gradleReference" />
+
+        <framework src="com.google.android.gms:play-services-base:$ANDROID_PLAY_SERVICES_CORE_VERSION" />
+        <framework src="com.google.android.gms:play-services-ads:$ANDROID_PLAY_SERVICES_ADS_VERSION" />
+        <framework src="com.google.code.gson:gson:$GSON_VERSION" />
+
         <source-file src="src/android/GemiusPlugin.java" target-dir="src/com/devapps/gemius" />
     </platform>
 </plugin>
