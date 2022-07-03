@@ -81,7 +81,7 @@ struct GemiusPluginError: Error, LocalizedError {
             event.send()
             
             let pluginResult = CDVPluginResult(
-                status: CDVCommandStatus_OK,
+                status: CDVCommandStatus_OK
             )
             
             self.commandDelegate!.send(
