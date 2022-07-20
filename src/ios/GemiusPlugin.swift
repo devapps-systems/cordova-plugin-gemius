@@ -67,8 +67,8 @@ struct GemiusPluginError: Error, LocalizedError {
                 throw GemiusPluginError("Please provide the event type.")
             }
             
-            let eventTypePassed = command.arguments[0] as! String
-            let eventType = GEMEventType.init(rawValue: Int(eventTypePassed)!)!
+            let eventTypePassed = command.arguments[0] as! Int
+            let eventType = GEMEventType.init(rawValue: eventTypePassed)!
 
             let event = GEMAudienceEvent()
             event.eventType = eventType
