@@ -54,16 +54,16 @@
 
         <resource-file src="src/android/aars/GemiusSDK_2.0.0.aar" target="../../libs/GemiusSDK_2.0.0.aar" />
 
-        <config-file parent="/*" target="AndroidManifest.xml">
-            <uses-permission android:name="android.permission.INTERNET" />
-            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-        </config-file>
-
         <framework custom="true" src="src/android/Gemius.gradle" type="gradleReference" />
 
         <framework src="com.google.android.gms:play-services-base:$ANDROID_PLAY_SERVICES_CORE_VERSION" />
         <framework src="com.google.android.gms:play-services-ads:$ANDROID_PLAY_SERVICES_ADS_VERSION" />
         <framework src="com.google.code.gson:gson:$GSON_VERSION" />
+
+        <config-file parent="/*" target="AndroidManifest.xml">
+            <uses-permission android:name="android.permission.INTERNET" />
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+        </config-file>
 
         <source-file src="src/android/GemiusPlugin.java" target-dir="src/com/devapps/gemius" />
     </platform>
