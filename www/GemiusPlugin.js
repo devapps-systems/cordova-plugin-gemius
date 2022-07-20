@@ -18,6 +18,8 @@ var GemiusPlugin = {
      * @param {Object} params - The optional additional parameters to be passed
      */
     logEvent: function(success, error, eventType, params) {
+        console.log("GemiusPlugin JS: eventType --> ", eventType);
+        console.log("GemiusPlugin JS: params --> ", JSON.stringify(params));
         exec(success, error, 'GemiusPlugin', 'logEvent', [eventType, params]);
     }
 };
