@@ -8,6 +8,19 @@ To install the plugin into a Cordova project, execute the below command:
 cordova plugin add https://github.com/devapps-systems/cordova-plugin-gemius --variable GEMIUS_APP_NAME=value --variable GEMIUS_APP_VERSION=value --variable GEMIUS_HITCOLLECTOR_HOST=value --variable GEMIUS_SCRIPT_IDENTIFIER=value
 ```
 
+Additional variables which can be used in the above command:
+
+| Variable | Default Value |
+| ------ | ------ |
+| GEMIUS_LOGGING_ENABLED | false |
+| GEMIUS_IDFA_ENABLED | true |
+| GEMIUS_BUFFERED_MODE | true |
+| GEMIUS_POWER_SAVING_MODE | true |
+| ANDROID_PLAY_SERVICES_CORE_VERSION | 17.3.0 |
+| ANDROID_PLAY_SERVICES_ADS_VERSION | 19.1.0 |
+| GSON_VERSION | 2.8.5 |
+
+
 Once the plugin has been installed, execute the below commands to prepare the Android & iOS projects:
 
 ```
