@@ -44,7 +44,7 @@ var errorCallback = function(error) {
 gemius.logEvent(successCallback, errorCallback, gemius.eventType.FULL_PAGEVIEW, { "ct": "nw/fineco"});
 ```
 
-Paramter details:
+#### Paramter details
 1. successCallback: The success callback function
 2. errorCallback: The failure callback function
 3. eventType: The Gemius Event type. The possible values are: 
