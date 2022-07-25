@@ -28,7 +28,7 @@ struct GemiusPluginError: Error, LocalizedError {
             selector: #selector(self.didEnterBackground),
             name: UIApplication.didEnterBackgroundNotification,
             object: nil)
-
+        
         initGemiusSDK()
     }
 
@@ -47,19 +47,19 @@ struct GemiusPluginError: Error, LocalizedError {
         let hitCollectorHost = gemiusConfig["GEMIUS_HITCOLLECTOR_HOST"]
         let scriptIdentifier = gemiusConfig["GEMIUS_SCRIPT_IDENTIFIER"]
         
-        let loggingEnabled = Bool(gemiusConfig["GEMIUS_LOGGING_ENABLED"]!)
-        let idfaEnabled = Bool(gemiusConfig["GEMIUS_IDFA_ENABLED"]!)
-        let bufferedMode = Bool(gemiusConfig["GEMIUS_BUFFERED_MODE"]!)
-        let powerSavingMode = Bool(gemiusConfig["GEMIUS_POWER_SAVING_MODE"]!)
+        let loggingEnabled = (gemiusConfig["GEMIUS_LOGGING_ENABLED"]?.lowercased() == "true") ? true : false
+        let idfaEnabled = (gemiusConfig["GEMIUS_IDFA_ENABLED"] == "true") ? true : false
+        let bufferedMode = (gemiusConfig["GEMIUS_BUFFERED_MODE"] == "true") ? true : false
+        let powerSavingMode = (gemiusConfig["GEMIUS_POWER_SAVING_MODE"] == "true") ? true : false
      
         GEMConfig.sharedInstance()?.setAppInfo(appName!, version: appVersion!)
-        GEMConfig.sharedInstance().loggingEnabled = loggingEnabled!
-        GEMConfig.sharedInstance().idfaCollectionEnabled = idfaEnabled!
+        GEMConfig.sharedInstance().loggingEnabled = loggingEnabled
+        GEMConfig.sharedInstance().idfaCollectionEnabled = idfaEnabled
         
         GEMAudienceConfig.sharedInstance().hitcollectorHost = hitCollectorHost!
         GEMAudienceConfig.sharedInstance().scriptIdentifier = scriptIdentifier!
-        GEMAudienceConfig.sharedInstance().bufferedMode = bufferedMode!
-        GEMAudienceConfig.sharedInstance().powerSavingMode = powerSavingMode!
+        GEMAudienceConfig.sharedInstance().bufferedMode = bufferedMode
+        GEMAudienceConfig.sharedInstance().powerSavingMode = powerSavingMode
     }
     
     @objc(logEvent:)
