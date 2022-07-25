@@ -27,6 +27,27 @@
         <source-file src="src/ios/GemiusPlugin.swift" compiler-flags="-ObjC" />
         <source-file src="src/ios/GemiusPlugin-Bridging-Header.h" />
 
+        <config-file target="*-Info.plist" parent="GemiusPluginConfig">
+            <dict>
+                <key>GEMIUS_APP_NAME</key>
+                <string>$GEMIUS_APP_NAME</string>
+                <key>GEMIUS_APP_VERSION</key>
+                <string>$GEMIUS_APP_VERSION</string>
+                <key>GEMIUS_HITCOLLECTOR_HOST</key>
+                <string>$GEMIUS_HITCOLLECTOR_HOST</string>
+                <key>GEMIUS_SCRIPT_IDENTIFIER</key>
+                <string>$GEMIUS_SCRIPT_IDENTIFIER</string>
+                <key>GEMIUS_LOGGING_ENABLED</key>
+                <string>$GEMIUS_LOGGING_ENABLED</string>
+                <key>GEMIUS_IDFA_ENABLED</key>
+                <string>$GEMIUS_IDFA_ENABLED</string>
+                <key>GEMIUS_BUFFERED_MODE</key>
+                <string>$GEMIUS_BUFFERED_MODE</string>
+                <key>GEMIUS_POWER_SAVING_MODE</key>
+                <string>$GEMIUS_POWER_SAVING_MODE</string>
+            </dict>
+        </config-file>
+        
         <framework src="AdSupport.framework" />
         <framework src="SystemConfiguration.framework" />
         <framework src="src/ios/frameworks/GemiusSDK.xcframework" custom="true" embed="false" />
