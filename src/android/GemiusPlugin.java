@@ -18,6 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class GemiusPlugin extends CordovaPlugin {
@@ -68,38 +69,58 @@ public class GemiusPlugin extends CordovaPlugin {
     }
 
     private void logEvent(JSONArray args, CallbackContext callbackContext) {
-        if(args == null || args.length() == 0) {
+        if (args == null || args.length() == 0) {
             callbackContext.error("{\"status\":\"error\", \"message\": \"Please provide the event type.\"}");
         }
 
-        try {
-            String eventTypePassed = args.get(0).toString();
-            HashMap<String, String> extraParams = null;
-            BaseEvent.EventType eventType = BaseEvent.EventType.valueOf(eventTypePassed);
+        cordova.getThreadPool().execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    int eventTypePassed = args.getInt(0);
+                    BaseEvent.EventType eventType = getEventType(eventTypePassed);
 
-            if(args.get(1) != null) {
-                extraParams = (HashMap<String, String>) args.get(1);
-            }
+                    AudienceEvent event = new AudienceEvent(mContext);
+                    event.setScriptIdentifier(scriptIdentifier);
+                    event.setEventType(eventType);
 
-            AudienceEvent event = new AudienceEvent(mContext);
-            event.setScriptIdentifier(this.scriptIdentifier);
-            event.setEventType(eventType);
+                    if (args.get(1) != null) {
+                        JSONObject extraParams = args.getJSONObject(1);
+                        Iterator<String> keys = extraParams.keys();
+                        while (keys.hasNext()) {
+                            String key = keys.next();
+                            event.addExtraParameter(key, extraParams.getString(key));
+                        }
+                    }
 
-            if(extraParams != null) {
-                for (Map.Entry<String, String> entry : extraParams.entrySet()) {
-                    String key = entry.getKey();
-                    String value = entry.getValue();
-                    event.addExtraParameter(key, value);
+                    event.sendEvent();
+                    callbackContext.success();
+                } catch (Exception e) {
+                    callbackContext.error("{\"status\":\"error\", \"message\": \"" + e.getMessage() + "\"}");
                 }
             }
-
-            event.sendEvent();
-        } catch (JSONException e) {
-            callbackContext.error("{\"status\":\"error\", \"message\": \"" + e.getMessage() +"\"}");
-        }
+        });
     }
 
     private int getAppResource(String name, String type) {
         return mCurrentActivity.getResources().getIdentifier(name, type, cordova.getActivity().getPackageName());
+    }
+
+    private BaseEvent.EventType getEventType(int eventTypePassed) throws Exception {
+        if (eventTypePassed == 0) {
+            return BaseEvent.EventType.FULL_PAGEVIEW;
+        } else if (eventTypePassed == 1) {
+            return BaseEvent.EventType.PARTIAL_PAGEVIEW;
+        } else if (eventTypePassed == 2) {
+            return BaseEvent.EventType.SONAR;
+        } else if (eventTypePassed == 3) {
+            return BaseEvent.EventType.ACTION;
+        } else if (eventTypePassed == 4) {
+            return BaseEvent.EventType.STREAM;
+        } else if (eventTypePassed == 5) {
+            return BaseEvent.EventType.DATA;
+        }
+
+        throw new Exception("Invalid Event Type");
     }
 }
