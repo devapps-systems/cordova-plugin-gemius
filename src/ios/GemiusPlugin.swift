@@ -28,6 +28,8 @@ struct GemiusPluginError: Error, LocalizedError {
             selector: #selector(self.didEnterBackground),
             name: UIApplication.didEnterBackgroundNotification,
             object: nil)
+
+        initGemiusSDK()
     }
 
     @objc private func didFinishLaunchingWithOptions(notification: NSNotification){
@@ -40,15 +42,15 @@ struct GemiusPluginError: Error, LocalizedError {
     
     func initGemiusSDK() {
         let gemiusConfig = Bundle.main.object(forInfoDictionaryKey: "GemiusPluginConfig") as! [String: String]
-        let appName = gemiusConfig["gemius_app_name"]
-        let appVersion = gemiusConfig["gemius_app_version"]
-        let hitCollectorHost = gemiusConfig["gemius_hitcollector_host"]
-        let scriptIdentifier = gemiusConfig["gemius_script_identifier"]
+        let appName = gemiusConfig["GEMIUS_APP_NAME"]
+        let appVersion = gemiusConfig["GEMIUS_APP_VERSION"]
+        let hitCollectorHost = gemiusConfig["GEMIUS_HITCOLLECTOR_HOST"]
+        let scriptIdentifier = gemiusConfig["GEMIUS_SCRIPT_IDENTIFIER"]
         
-        let loggingEnabled = Bool(gemiusConfig["gemius_logging_enabled"]!)
-        let idfaEnabled = Bool(gemiusConfig["gemius_idfa_enabled"]!)
-        let bufferedMode = Bool(gemiusConfig["gemius_buffered_mode"]!)
-        let powerSavingMode = Bool(gemiusConfig["gemius_power_saving_mode"]!)
+        let loggingEnabled = Bool(gemiusConfig["GEMIUS_LOGGING_ENABLED"]!)
+        let idfaEnabled = Bool(gemiusConfig["GEMIUS_IDFA_ENABLED"]!)
+        let bufferedMode = Bool(gemiusConfig["GEMIUS_BUFFERED_MODE"]!)
+        let powerSavingMode = Bool(gemiusConfig["GEMIUS_POWER_SAVING_MODE"]!)
      
         GEMConfig.sharedInstance()?.setAppInfo(appName!, version: appVersion!)
         GEMConfig.sharedInstance().loggingEnabled = loggingEnabled!
