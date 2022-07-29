@@ -58,7 +58,7 @@
     <platform name="android">
         <config-file parent="/*" target="res/xml/config.xml">
             <feature name="GemiusPlugin">
-                <param name="android-package" value="com.devapps.gemius.GemiusPlugin" />
+                <param name="android-package" value="com.devapps.gemius" />
             </feature>
         </config-file>
 
