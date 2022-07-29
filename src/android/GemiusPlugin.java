@@ -1,4 +1,4 @@
-package com.devapps.gemius;
+package com.devapps.gemius.GemiusPlugin;
 
 import android.app.Activity;
 import android.content.Context;
@@ -73,33 +73,28 @@ public class GemiusPlugin extends CordovaPlugin {
             callbackContext.error("{\"status\":\"error\", \"message\": \"Please provide the event type.\"}");
         }
 
-        cordova.getThreadPool().execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    int eventTypePassed = args.getInt(0);
-                    BaseEvent.EventType eventType = getEventType(eventTypePassed);
+        try {
+            int eventTypePassed = args.getInt(0);
+            BaseEvent.EventType eventType = getEventType(eventTypePassed);
 
-                    AudienceEvent event = new AudienceEvent(mContext);
-                    event.setScriptIdentifier(scriptIdentifier);
-                    event.setEventType(eventType);
+            AudienceEvent event = new AudienceEvent(mContext);
+            event.setScriptIdentifier(scriptIdentifier);
+            event.setEventType(eventType);
 
-                    if (args.get(1) != null) {
-                        JSONObject extraParams = args.getJSONObject(1);
-                        Iterator<String> keys = extraParams.keys();
-                        while (keys.hasNext()) {
-                            String key = keys.next();
-                            event.addExtraParameter(key, extraParams.getString(key));
-                        }
-                    }
-
-                    event.sendEvent();
-                    callbackContext.success();
-                } catch (Exception e) {
-                    callbackContext.error("{\"status\":\"error\", \"message\": \"" + e.getMessage() + "\"}");
+            if (args.get(1) != null) {
+                JSONObject extraParams = args.getJSONObject(1);
+                Iterator<String> keys = extraParams.keys();
+                while (keys.hasNext()) {
+                    String key = keys.next();
+                    event.addExtraParameter(key, extraParams.getString(key));
                 }
             }
-        });
+
+            event.sendEvent();
+            callbackContext.success();
+        } catch (Exception e) {
+            callbackContext.error("{\"status\":\"error\", \"message\": \"" + e.getMessage() + "\"}");
+        }
     }
 
     private int getAppResource(String name, String type) {
