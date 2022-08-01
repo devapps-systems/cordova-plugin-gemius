@@ -56,6 +56,16 @@
     </platform>
 
     <platform name="android">
+        <!-- <platform name="android">
+            <config-file parent="/*" target="res/xml/config.xml">
+                <feature name="HyperTrackWrapper">
+                    <param name="android-package" value="cordova-plugin-hypertrack.HyperTrackWrapper" />
+                </feature>
+            </config-file>
+            <config-file parent="/*" target="AndroidManifest.xml" />
+            <source-file src="src/android/HyperTrackWrapper.java" target-dir="src/cordova-plugin-hypertrack/HyperTrackWrapper" />
+        </platform> -->
+
         <config-file parent="/*" target="res/xml/config.xml">
             <feature name="GemiusPlugin">
                 <param name="android-package" value="com.devapps.gemius.GemiusPlugin" />
