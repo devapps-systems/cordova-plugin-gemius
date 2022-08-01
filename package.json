@@ -1,0 +1,19 @@
+{
+  "name": "gemiusplugin",
+  "version": "1.0.0",
+  "description": "Cordova Gemius plugin for Android & iOS",
+  "cordova": {
+    "id": "com.devapps",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "author": "Mahendra Liya (liyamahendra4@gmail.com)",
+  "license": "ISC"
+}
